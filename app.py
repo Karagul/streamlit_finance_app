@@ -18,8 +18,8 @@ st.sidebar.header('User Input Parameters')
 
 def user_input_features():
     stringinput = st.sidebar.text_input("Stock", "GOOGL")
-    startDate2 = st.sidebar.date_input("Beginn of Timeframe", date.fromisoformat('2010-05-31'))
-    endDate2 = st.sidebar.date_input("End of Timeframe", date.fromisoformat('2020-05-31'))
+    #startDate2 = st.sidebar.date_input("Beginn of Timeframe", date.fromisoformat('2010-05-31'))
+    #endDate2 = st.sidebar.date_input("End of Timeframe", date.fromisoformat('2020-05-31'))
     return stringinput
 
 user_input = user_input_features()
