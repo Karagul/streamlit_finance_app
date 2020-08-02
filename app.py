@@ -18,7 +18,7 @@ st.sidebar.header('User Input Parameters')
 
 def user_input_features():
     stringinput = st.sidebar.text_input("Stock", "GOOGL")
-    startDate2 = st.sidebar.date_input("Beginn of Timeframe", datetime.date(2010,5,31))
+    startDate = st.sidebar.date_input("Beginn of Timeframe", datetime.date(2010,5,31))
     endDate2 = st.sidebar.date_input("End of Timeframe", datetime.date(2020,8,2))
 
     return stringinput
@@ -31,7 +31,7 @@ stockname = user_input
 tickerData = yf.Ticker(stockname)
 #st.write(yf.Ticker(stockname))
 #get the historical prices for this ticker
-tickerDf = tickerData.history(period='1d', start='2010-5-31', end='2020-5-31')
+tickerDf = tickerData.history(period='1d', start= startDate, end='2020-5-31')
 #st.write(tickerDf.empty )
 # Open	High	Low	Close	Volume	Dividends	Stock Splits
 
