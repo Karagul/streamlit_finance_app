@@ -4,7 +4,8 @@ import json
 from datetime import date
 
 st.write("""
-# Simple Stock Price App
+# Stock Price Application
+### - Currently in test phase. See Description at bottom.
 Closing price per day is shown. 1 Dataset per day.
 """)
 
@@ -17,13 +18,11 @@ st.sidebar.header('User Input Parameters')
 
 def user_input_features():
     stringinput = st.sidebar.text_input("Stock", "GOOGL")
-    #startDate2 = st.sidebar.date_input("Beginn of Timeframe", date.fromisoformat('2010-05-31'))
-    #endDate2 = st.sidebar.date_input("End of Timeframe", date.fromisoformat('2020-05-31'))
+    startDate2 = st.sidebar.date_input("Beginn of Timeframe", date.fromisoformat('2010-05-31'))
+    endDate2 = st.sidebar.date_input("End of Timeframe", date.fromisoformat('2020-05-31'))
     return stringinput
 
 user_input = user_input_features()
-
-
 
 #define the ticker symbol
 stockname = user_input
@@ -45,3 +44,9 @@ else:
     st.line_chart(tickerDf.Close)
     st.write("""Volume of Stock""")
     st.line_chart(tickerDf.Volume)
+
+st.write("""
+##Documentation.
+The Code for this application can be found on github @ https://github.com/SirVectrex/heroku_test_deployment.
+Repository is public.
+""")
