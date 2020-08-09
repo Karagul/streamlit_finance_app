@@ -1,4 +1,11 @@
-# Streamlit-app
-Sample repository for youtube video
+# Streamlit Finance Application
 
-<h2>You can read the 'steps to follow.txt' file and follow those steps to successfuly deploy your Streamlit app on Heroku. </h2>
+This Repository is a simple test-application for finance usage. It will show and analyse a stock entered by a user. 
+
+Next planned steps are: 
+
+- Implementation of darkmode
+- Implementation of a saved stock "warehouse"
+- Implementation of buttons for standard grahps (i.E. 1 Month, 6 Month, 1 Year, 5 Years, ...)
+- Implementation of Automatic Currency Exchange
+

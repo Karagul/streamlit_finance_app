@@ -5,49 +5,52 @@ import datetime
 
 st.write("""
 # Stock Price Application
-### - Currently in test phase. See Description at bottom.
+### - Currently in test phase. See Description at bottom. -
 Closing price per day is shown. 1 Dataset per day.
 """)
 
-#user_input = st.text_input("Stock", "GOOGL")
-#startDate = st.date_input("Beginn of Timeframe")
-#endDate = st.date_input("End of Timeframe")
+# user_input = st.text_input("Stock", "GOOGL")
+# startDate = st.date_input("Beginn of Timeframe")
+# endDate = st.date_input("End of Timeframe")
 
-#sidebar with input parameters
+# sidebar with input parameters
 st.sidebar.header('User Input Parameters')
+
 
 def user_input_features():
     stringinput = st.sidebar.text_input("Stock", "GOOGL")
-    startDate2 = st.sidebar.date_input("Beginn of Timeframe", datetime.date(2010,5,31))
-    endDate2 = st.sidebar.date_input("End of Timeframe", datetime.date(2020,8,2))
-
     return stringinput
+
 
 user_input = user_input_features()
 
-#define the ticker symbol
+# define the ticker symbol
 stockname = user_input
-#get data on this ticker
+# get data on this ticker
 tickerData = yf.Ticker(stockname)
-#st.write(yf.Ticker(stockname))
-#get the historical prices for this ticker
-tickerDf = tickerData.history(period='1d', start='2010-5-31', end='2020-5-31')
-#st.write(tickerDf.empty )
+# st.write(yf.Ticker(stockname))
+# get the historical prices for this ticker
+startdate = st.sidebar.date_input("Beginn of Timeframe", datetime.date(2010, 5, 31))
+endDate = st.sidebar.date_input("End of Timeframe", datetime.date.today())
 # Open	High	Low	Close	Volume	Dividends	Stock Splits
+tickerDf = tickerData.history(period='1d', start= startdate, end= endDate)
+# st.write(tickerDf.empty )
 
-if tickerDf.empty == True :
+if tickerDf.empty:
     st.write("""No Data found for entry. Please enter another stock-identifyer""")
 else:
     st.write("Stock Name **", str(tickerData.info["longName"]), "**")
-    st.write("Current Ask Price **",  str(tickerData.info["ask"]), "**")
-    st.write("""Curreny:""", str(tickerData.info["currency"]))
+    st.write("Current Ask Price **",  str(tickerData.info["ask"]), "**", str(tickerData.info["currency"]))
+    #st.write("""Curreny:""", str(tickerData.info["currency"]))
     st.write("""Closure Values""")
     st.line_chart(tickerDf.Close)
     st.write("""Volume of Stock""")
     st.line_chart(tickerDf.Volume)
 
 st.write("""
-##Documentation.
+## Additional Information.
 The Code for this application can be found on github @ https://github.com/SirVectrex/heroku_test_deployment.
-Repository is public.
+Repository is public. Code is currently in an experimental state.
+
+Author: Florian Schulenberg
 """)
