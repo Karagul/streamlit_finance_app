@@ -5,7 +5,6 @@ This Repository is a simple test-application for finance usage. It will show and
 Next planned steps are: 
 
 - Implementation of darkmode
-- Implementation of a saved stock "warehouse"
 - Implementation of buttons for standard grahps (i.E. 1 Month, 6 Month, 1 Year, 5 Years, ...)
-- Implementation of Automatic Currency Exchange
+
 
