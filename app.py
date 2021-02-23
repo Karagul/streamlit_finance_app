@@ -1,9 +1,79 @@
 import datetime
 import streamlit as st
 import yfinance as yf
+import sqlite3
+from sqlite3 import Error
+import os.path
+
+
+database = r".\DB\portfolio.db"
 
 
 # --- Definition of Functions ---
+
+# --- Definitions of DB access ---
+def check_conn():
+    if os.path.isfile('.DB\portfolio.db'):
+        print("File exist")
+    else:
+        print("File not exist")
+
+def create_connection():
+    """ create a database connection to the SQLite database
+        specified by db_file
+    :param db_file: database file
+    :return: Connection object or None
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect(database)
+    except Error as e:
+        print(e)
+
+    return conn
+
+def create_portfolio_entry(conn, project):
+    """
+    Create a new project into the projects table
+    :param conn:
+    :param project:
+    :return: project id
+    """
+    sql = """ CREATE TABLE IF NOT EXISTS portfolio (
+                                        portfolio_ID integer NOT NULL,
+                                        stock text NOT NULL,
+                                        buyin double NOT NULL,
+                                        buyindate date
+                                    ); """
+    cur = conn.cursor()
+    cur.execute(sql, project)
+    conn.commit()
+    return cur.lastrowid
+
+def select_all_playbacks(conn):
+    """
+    Query all rows in the tasks table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM portfolio")
+
+    rows = cur.fetchall()
+
+    for row in rows:
+        print(row)
+
+def get_amount_of_playbacks(conn):
+    """
+    Query all rows in the tasks table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    return cur.execute("SELECT SUM * FROM portfolio")
+
+
 
 # will return the list of saved stocks from file "mystocks.txt"
 def read_saved_stocks():
