@@ -8,15 +8,13 @@ import os.path
 
 database = r".\DB\portfolio.db"
 
-
 # --- Definition of Functions ---
-
-# --- Definitions of DB access ---
+## --- Definitions of DB access ---
 def check_conn():
     if os.path.isfile('.DB\portfolio.db'):
-        print("File exist")
+        return True
     else:
-        print("File not exist")
+        return False
 
 def create_connection():
     """ create a database connection to the SQLite database
@@ -32,11 +30,10 @@ def create_connection():
 
     return conn
 
-def create_portfolio_entry(conn, project):
+def create_portfolio(conn):
     """
     Create a new project into the projects table
     :param conn:
-    :param project:
     :return: project id
     """
     sql = """ CREATE TABLE IF NOT EXISTS portfolio (
@@ -46,7 +43,7 @@ def create_portfolio_entry(conn, project):
                                         buyindate date
                                     ); """
     cur = conn.cursor()
-    cur.execute(sql, project)
+    cur.execute(sql)
     conn.commit()
     return cur.lastrowid
 
@@ -73,13 +70,14 @@ def get_amount_of_playbacks(conn):
     cur = conn.cursor()
     return cur.execute("SELECT SUM * FROM portfolio")
 
-
-
 # will return the list of saved stocks from file "mystocks.txt"
 def read_saved_stocks():
-    file = open("mystocks.txt", "r")
+    file = open("watchlist.txt", "r")
     filecontent_array = file.read().split(",")
     return filecontent_array
+
+def read_read_bought_stocks():
+    portfolio = open("mystocks.txt", "r")
 
 
 def get_USD_to_EUR():
@@ -99,6 +97,9 @@ def user_input_features():
     else:
         user_input_array = [stocksymbol, startDate, endDate]
     return user_input_array
+
+# --- DB INIT ---
+create_portfolio(create_connection())
 
 
 # --- Website Structure and Design ---
