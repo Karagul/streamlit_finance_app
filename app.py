@@ -10,7 +10,6 @@ database = r".\DB\portfolio.db"
 
 
 # --- Definition of Functions ---
-
 # --- Definitions of DB access ---
 def check_conn():
     if os.path.isfile('.DB\portfolio.db'):
@@ -74,6 +73,8 @@ def get_amount_of_playbacks(conn):
     return cur.execute("SELECT SUM * FROM portfolio")
 
 
+# --- Read and make SQL Available to edit ---
+listelement = [('BMW.DE', '50.25', '', )]
 
 # will return the list of saved stocks from file "mystocks.txt"
 def read_saved_stocks():
@@ -103,6 +104,11 @@ def user_input_features():
 
 # --- Website Structure and Design ---
 
+# --- Prep Data ---
+# Array built: 2d
+# [ [ Stockname ,  Stockvalue_now, Stockvalue_old, Stockvalue_diff, Buyindate, Totalmoney  ]
+#   next stock, next stock
+
 st.write("""
 # Stock Price Application
 ### - Currently in test phase. See Description at bottom. -
@@ -114,30 +120,37 @@ st.sidebar.header('User Input Parameters')
 favoredstocks = read_saved_stocks()
 user_input = user_input_features()
 
-# define the ticker symbol
-stockname = user_input[0]
-# get data on this ticker
-tickerData = yf.Ticker(stockname)
-# st.write(yf.Ticker(stockname))
-# get the historical prices for this ticker
-user_startdate = user_input[1]
-user_enddate = user_input[2]
-# Open	High	Low	Close	Volume	Dividends	Stock Splits
-tickerDf = tickerData.history(period='1d', start=user_startdate, end=user_enddate)
-# st.write(tickerDf.empty )
 
-if tickerDf.empty:
-    st.write("""No Data found for entry. Please enter another stock-identifyer""")
+# Check if show own stocks or not
+if st.checkbox('Show own Stocks'):
+    st.write('Personal Portfolio. To be added')
+
 else:
-    st.write("Stock Name **", str(tickerData.info["longName"]), "**")
-    st.write("Current Ask Price **", str(tickerData.info["ask"]), str(tickerData.info["currency"]), "**")
-    #refactor Dollar into Euro, when stock is traded in Euros
-    if str(tickerData.info["currency"]) == "USD":
-        st.write("That equals **", str(tickerData.info["ask"] * get_USD_to_EUR()), "€ **")
-    st.write("""Closure Values""")
-    st.line_chart(tickerDf.Close)
-    st.write("""Volume of Stock""")
-    st.line_chart(tickerDf.Volume)
+
+    # define the ticker symbol
+    stockname = user_input[0]
+    # get data on this ticker
+    tickerData = yf.Ticker(stockname)
+    # st.write(yf.Ticker(stockname))
+    # get the historical prices for this ticker
+    user_startdate = user_input[1]
+    user_enddate = user_input[2]
+    # Open	High	Low	Close	Volume	Dividends	Stock Splits
+    tickerDf = tickerData.history(period='1d', start=user_startdate, end=user_enddate)
+    # st.write(tickerDf.empty )
+
+    if tickerDf.empty:
+        st.write("""No Data found for entry. Please enter another stock-identifyer""")
+    else:
+        st.write("Stock Name **", str(tickerData.info["longName"]), "**")
+        st.write("Current Ask Price **", str(tickerData.info["ask"]), str(tickerData.info["currency"]), "**")
+        #refactor Dollar into Euro, when stock is traded in Euros
+        if str(tickerData.info["currency"]) == "USD":
+            st.write("That equals **", str(tickerData.info["ask"] * get_USD_to_EUR()), "€ **")
+        st.write("""Closure Values""")
+        st.line_chart(tickerDf.Close)
+        st.write("""Volume of Stock""")
+        st.line_chart(tickerDf.Volume)
 
 st.write("""
 ## Additional Information.
