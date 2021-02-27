@@ -108,16 +108,32 @@ def user_input_features():
 #   next stock, next stock
 portfolio_array = []
 counter = 0
+print("counter init")
 rawportfolio = select_all_playbacks(create_connection())
-for x in select_all_playbacks(create_connection()):
-    curr_price = yf.Ticker(rawportfolio[counter][1])
-    if str(tickerData.info["currency"]) == "USD":
-        st.write("That equals **", str(tickerData.info["ask"] * get_USD_to_EUR()), "€ **")
+print(rawportfolio)
 
-    appender = [rawportfolio[counter][1], c , rawportfolio[counter][2], 00.00, rawportfolio[counter][3], 200]
-    portfolio_array.append(appender)
-    counter = counter +1
-    print("X =" ,x, " Counter = ", counter)
+for x in select_all_playbacks(create_connection()):
+
+    tickerData = yf.Ticker("BMW.DE")
+    # Open	High	Low	Close	Volume	Dividends	Stock Splits
+    tickerDf = tickerData.history(period='1d')
+    print(tickerData.info)
+    # st.write(tickerDf.empty )
+    #print((tickerData.info["longName"]))
+
+
+    #curr_price_tick = yf.Ticker("BMW.DE")
+    #print(curr_price_tick)
+    # curr_price = 0
+    # #if str(curr_price_tick.info["currency"]) == "USD":
+    # #    curr_price = curr_price_tick.info["ask"] * get_USD_to_EUR()
+    # #else:
+    # curr_price = curr_price_tick.info["ask"]
+    #
+    # appender = [rawportfolio[counter][1], curr_price, rawportfolio[counter][2], curr_price-rawportfolio[counter][2], rawportfolio[counter][3], curr_price * rawportfolio[counter][4]]
+    # portfolio_array.append(appender)
+    # counter = counter +1
+    # print("X =" ,x, " Counter = ", counter)
 
 
 

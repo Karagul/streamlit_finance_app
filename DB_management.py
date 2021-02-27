@@ -29,6 +29,18 @@ def create_connection():
 
     return conn
 
+def delete_portfolio(conn):
+    """
+    Create a new project into the projects table
+    :param conn:
+    :return: project id
+    """
+    cur = conn.cursor()
+    cur.execute("DROP TABLE portfolio")
+    conn.commit()
+    print("done")
+
+
 def create_portfolio(conn):
     """
     Create a new project into the projects table
@@ -71,7 +83,7 @@ def select_all_playbacks(conn):
     cur.execute("SELECT * FROM portfolio")
 
     rows = cur.fetchall()
-    print("Database")
+    print("Database: ")
     for row in rows:
         print(row)
     return rows
@@ -109,19 +121,20 @@ print(portfolio_array)
 
 
 #
-
-#conn = create_connection()
-#create_portfolio(conn)
-#print("What do you want to do? DEL / CREATE")
-#choice = input()
-#if choice == "DEL":
-#    delete_database(conn)
-#elif choice=="CREATE":
-#    playback = (0, 'MSFT', '50.20', '20.02.2020', 1)
-#    create_portfolio_entry(conn, playback)
-#    playback = (1, 'BMW.DE', '27.75', '30.12.2020', 1)
-#    create_portfolio_entry(conn, playback)
-##    select_all_playbacks(conn)
-#else:
-#    select_all_playbacks(conn)
+#
+# conn = create_connection()
+# #delete_portfolio(conn)
+# create_portfolio(conn)
+# print("What do you want to do? DEL / CREATE")
+# choice = input()
+# if choice == "DEL":
+#     delete_database(conn)
+# elif choice=="CREATE":
+#     playback = (0, 'MSFT', '50.20', '20.02.2020', 1)
+#     create_portfolio_entry(conn, playback)
+#     playback = (1, 'BMW.DE', '27.75', '30.12.2020', 1)
+#     create_portfolio_entry(conn, playback)
+#     select_all_playbacks(conn)
+# else:
+#     select_all_playbacks(conn)
 
