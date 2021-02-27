@@ -59,9 +59,7 @@ def select_all_playbacks(conn):
     cur.execute("SELECT * FROM portfolio")
 
     rows = cur.fetchall()
-
-    for row in rows:
-        print(row)
+    return rows
 
 def get_amount_of_playbacks(conn):
     """
@@ -108,6 +106,20 @@ def user_input_features():
 # Array built: 2d
 # [ [ Stockname ,  Stockvalue_now, Stockvalue_old, Stockvalue_diff, Buyindate, Totalmoney  ]
 #   next stock, next stock
+portfolio_array = []
+counter = 0
+rawportfolio = select_all_playbacks(create_connection())
+for x in select_all_playbacks(create_connection()):
+    curr_price = yf.Ticker(rawportfolio[counter][1])
+    if str(tickerData.info["currency"]) == "USD":
+        st.write("That equals **", str(tickerData.info["ask"] * get_USD_to_EUR()), "€ **")
+
+    appender = [rawportfolio[counter][1], c , rawportfolio[counter][2], 00.00, rawportfolio[counter][3], 200]
+    portfolio_array.append(appender)
+    counter = counter +1
+    print("X =" ,x, " Counter = ", counter)
+
+
 
 st.write("""
 # Stock Price Application

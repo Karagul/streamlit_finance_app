@@ -71,9 +71,10 @@ def select_all_playbacks(conn):
     cur.execute("SELECT * FROM portfolio")
 
     rows = cur.fetchall()
-
+    print("Database")
     for row in rows:
         print(row)
+    return rows
 
 def get_amount_of_playbacks(conn):
     """
@@ -96,19 +97,31 @@ def delete_database(conn):
     conn.commit()
 # --- Main Functions ---
 
+portfolio_array = []
+counter = 0
+rawportfolio = select_all_playbacks(create_connection())
+for x in select_all_playbacks(create_connection()):
+    appender = [rawportfolio[counter][1],20.00 , rawportfolio[counter][2], 00.00, rawportfolio[counter][3], 200]
+    portfolio_array.append(appender)
+    counter = counter +1
+    print("X =" ,x, " Counter = ", counter)
+print(portfolio_array)
 
-conn = create_connection()
-create_portfolio(conn)
-print("What do you want to do? DEL / CREATE")
-choice = input()
-if choice == "DEL":
-    delete_database(conn)
-elif choice=="CREATE":
-    playback = (0, 'MSFT', '50.20', '20.02.2020', 1)
-    create_portfolio_entry(conn, playback)
-    playback = (1, 'BMW.DE', '27.75', '30.12.2020', 1)
-    create_portfolio_entry(conn, playback)
-    select_all_playbacks(conn)
-else:
-    select_all_playbacks(conn)
+
+#
+
+#conn = create_connection()
+#create_portfolio(conn)
+#print("What do you want to do? DEL / CREATE")
+#choice = input()
+#if choice == "DEL":
+#    delete_database(conn)
+#elif choice=="CREATE":
+#    playback = (0, 'MSFT', '50.20', '20.02.2020', 1)
+#    create_portfolio_entry(conn, playback)
+#    playback = (1, 'BMW.DE', '27.75', '30.12.2020', 1)
+#    create_portfolio_entry(conn, playback)
+##    select_all_playbacks(conn)
+#else:
+#    select_all_playbacks(conn)
 
