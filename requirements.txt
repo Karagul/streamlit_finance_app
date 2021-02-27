@@ -1,4 +1,4 @@
 streamlit
-yfinance
 lxml
 datetime
+git+git://github.com/vonHacht/yfinance.git@master#egg=yfinance
